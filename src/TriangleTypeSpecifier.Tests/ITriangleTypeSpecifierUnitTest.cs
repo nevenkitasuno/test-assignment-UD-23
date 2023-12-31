@@ -12,17 +12,51 @@ public abstract class TestBase
         _specifier = specifier;
     }
 
-    private void CanSpecAssert(float a, float b, float c, TriangleType expected)
+    private void Shuffle(float a, float b, float c, TriangleType expected, int permutationNumber)
     {
-        var result = _specifier.Specify(a, b, c);
+        
+        TriangleType result;
+
+        switch (permutationNumber)
+        {
+            case 1:
+                result = _specifier.Specify(a, b, c);
+                break;
+            case 2:
+                result = _specifier.Specify(c, a, b);
+                break;
+            case 3:
+                result = _specifier.Specify(b, c, a);
+                break;
+            case 4:
+                result = _specifier.Specify(a, c, b);
+                break;
+            case 5:
+                result = _specifier.Specify(b, a, c);
+                break;
+            case 6:
+                result = _specifier.Specify(c, b, a);
+                break;
+            default:
+                result = _specifier.Specify(a, b, c);
+                break;
+        }
 
         Assert.Equal(expected, result);
     }
 
+    private void CanSpecAssert(float a, float b, float c, TriangleType expected)
+    {
+        var result = _specifier.Specify(a, b, c);
+
+        for (int i = 1; i <= 6; i++)
+        {
+            Shuffle(a, b, c, expected, i);
+        }
+    }
+
     [Theory]
     [InlineData(5, 9, 123)]
-    [InlineData(123, 5, 9)]
-    [InlineData(5, 123, 9)]
     public void CanSpecImpossibleTheory(float a, float b, float c)
     {
         var expected = TriangleType.Impossible;
@@ -32,8 +66,6 @@ public abstract class TestBase
     [Theory]
     [InlineData(7, 10, 16)]
     [InlineData(7, 8, 12)]
-    [InlineData(16, 10, 7)]
-    [InlineData(10, 16, 7)]
     [InlineData(25, 25, 48)]
     public void CanSpecObtuseTheory(float a, float b, float c)
     {
@@ -43,8 +75,6 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(5, 6, 7)]
-    [InlineData(7, 6, 5)]
-    [InlineData(5, 7, 6)]
     [InlineData(5, 7, 8)]
     public void CanSpecAcuteTheory(float a, float b, float c)
     {
@@ -54,8 +84,6 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(3, 4, 5)]
-    [InlineData(5, 4, 3)]
-    [InlineData(3, 5, 4)]
     [InlineData(5, 12, 13)]
     [InlineData(8, 15, 17)]
     [InlineData(9, 40, 41)]
@@ -90,8 +118,6 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(2, 4, 6)]
-    [InlineData(6, 4, 2)]
-    [InlineData(2, 6, 4)]
     public void DegeneracyTheory(float a, float b, float c)
     {
         var expected = TriangleType.Obtuse;
@@ -100,8 +126,6 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(2.9, 3.8, 5.2)]
-    [InlineData(5.2, 2.9, 3.8)]
-    [InlineData(2.9, 5.2, 3.8)]
     public void CanSpecFloatObtuseTheory(float a, float b, float c)
     {
         var expected = TriangleType.Obtuse;
@@ -110,11 +134,18 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(2.9, 3.8, 4.2)]
-    [InlineData(4.2, 2.9, 3.8)]
-    [InlineData(2.9, 4.2, 3.8)]
     public void CanSpecFloatAcuteTheory(float a, float b, float c)
     {
         var expected = TriangleType.Acute;
+        CanSpecAssert(a, b, c, expected);
+    }
+
+    [Theory]
+    [InlineData(15, 27, 29.55)]
+    [InlineData(21.02, 19, 9)]
+    public void CanSpecFloatRightTheory(float a, float b, float c)
+    {
+        var expected = TriangleType.Right;
         CanSpecAssert(a, b, c, expected);
     }
 }
