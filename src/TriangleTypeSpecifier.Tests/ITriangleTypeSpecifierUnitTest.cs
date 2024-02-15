@@ -134,6 +134,8 @@ public abstract class TestBase
 
     [Theory]
     [InlineData(2.9, 3.8, 4.2)]
+    [InlineData(15, 27, 29.55)]
+    [InlineData(21.02, 19, 9)]
     public void CanSpecFloatAcuteTheory(float a, float b, float c)
     {
         var expected = TriangleType.Acute;
@@ -141,8 +143,7 @@ public abstract class TestBase
     }
 
     [Theory]
-    [InlineData(15, 27, 29.55)]
-    [InlineData(21.02, 19, 9)]
+    [InlineData(0.9, 4, 4.1)]
     public void CanSpecFloatRightTheory(float a, float b, float c)
     {
         var expected = TriangleType.Right;

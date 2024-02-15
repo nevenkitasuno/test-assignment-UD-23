@@ -19,9 +19,9 @@ namespace TriangleTypeLib
             var shortestSquaresSum = sides[0] * sides[0] + sides[1] * sides[1];
             var longestSquare = sides[2] * sides[2];
 
-            if (longestSquare > shortestSquaresSum)
+            if (longestSquare > shortestSquaresSum + Options.Epsilon)
                 return TriangleType.Obtuse;
-            else if (longestSquare < shortestSquaresSum)
+            else if (longestSquare < shortestSquaresSum - Options.Epsilon)
                 return TriangleType.Acute;
             else
                 return TriangleType.Right;
