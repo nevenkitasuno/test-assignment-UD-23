@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TriangleTypeLib
+namespace Solution
 {
-    public class TriangleTypeSpecifySwap : ITriangleTypeSpecifier
+    public class TriangleTypeSpecifier
     {
-        public TriangleType Specify(float a, float b, float c) {
+        // Swap based
+        public static TriangleType Specify(float a, float b, float c) {
             double[] sides = new double[3]{a, b, c};
 
             if (sides[0] > sides[1])
@@ -23,13 +24,6 @@ namespace TriangleTypeLib
 
             var shortestSquaresSum = sides[0] * sides[0] + sides[1] * sides[1];
             var longestSquare = sides[2] * sides[2];
-
-            // if (Math.Abs(longestSquare - shortestSquaresSum) < Options.Epsilon)
-            //     return TriangleType.Right;
-            // else if (longestSquare > shortestSquaresSum)
-            //     return TriangleType.Obtuse;
-            // else
-            //     return TriangleType.Acute;
 
             if (longestSquare > shortestSquaresSum + Options.Epsilon)
                 return TriangleType.Obtuse;
